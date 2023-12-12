@@ -1,7 +1,100 @@
+//this is a home page where the user is able to select the conversion type, from
+platform, to platform, and link to the song or playlist they want to convert.
+//the user is also able to start the conversion by clicking the start conversion
+button. //if user is not logged in it should show an error message or handle
+incomplete selection. //if user is logged in and all the fields are filled out,
+it should start the conversion. //if user is logged in and all the fields are
+not filled out, it should show an error message or handle incomplete input.
+//when a user clicks on the start conversion button, he should be redirected to
+the conversion page.
 <template>
-  <HelloWorld />
+  <div class="landing-page">
+    <h1>Welcome to our Conversion Tool</h1>
+    <p>On this website, you can choose what type of conversion you need.</p>
+    <p>
+      Just like how on another website, you can choose what playlists you can
+      import from one music platform to another, you can also do that here to
+      find songs in that other platform.
+    </p>
+    <v-card>
+      <v-card-title>Choose your conversion type:</v-card-title>
+      <v-card-text>
+        <v-radio-group v-model="conversionType">
+          <v-radio :label="'Playlist Conversion'" value="playlist"></v-radio>
+          <v-radio :label="'Song Conversion'" value="song"></v-radio>
+        </v-radio-group>
+      </v-card-text>
+      <v-card-text class="conversion-selects">
+        <div>
+          <label>From:</label>
+          <v-select v-model="fromPlatform" :items="platforms"></v-select>
+        </div>
+        <div>
+          <label>To:</label>
+          <v-select v-model="toPlatform" :items="platforms"></v-select>
+        </div>
+        <div>
+          <label>Link to the song or playlist:</label>
+          <v-text-field
+            v-model="link"
+            placeholder="Paste your link here"
+          ></v-text-field>
+        </div>
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn color="primary" :disabled="!isLoggedIn" @click="startConversion"
+          >Start Conversion</v-btn
+        >
+      </v-card-actions>
+    </v-card>
+  </div>
 </template>
 
-<script setup>
-  import HelloWorld from '@/components/HelloWorld.vue'
+<script>
+export default {
+  data() {
+    return {
+      conversionType: "",
+      fromPlatform: "",
+      toPlatform: "",
+      link: "",
+      platforms: ["Spotify", "Tidal"],
+      isLoggedIn: true, // Set to true if the user is logged in
+    };
+  },
+  methods: {
+    startConversion() {
+      if (
+        this.isLoggedIn &&
+        this.conversionType &&
+        this.fromPlatform &&
+        this.toPlatform &&
+        this.link
+      ) {
+        // Handle the conversion based on the selected type, platforms, and link
+        // Implement your logic here
+      } else {
+        // Show an error message or handle incomplete input
+      }
+    },
+  },
+};
 </script>
+
+<style scoped>
+.landing-page {
+  margin: 20px;
+}
+.conversion-selects {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-gap: 10px;
+  margin-top: 10px;
+  align-items: center;
+}
+.conversion-selects div {
+  display: flex;
+  flex-direction: column;
+}
+</style>
