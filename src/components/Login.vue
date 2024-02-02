@@ -32,6 +32,7 @@
 </template>
 
 <script>
+import { useAuthStore } from "@/store/auth";
 export default {
   data() {
     return {
@@ -41,11 +42,15 @@ export default {
     };
   },
   methods: {
-    submitForm() {
+    async submitForm() {
+      const auth = useAuthStore();
       if (this.formType === "Login") {
-        // Handle login
+        await auth.login({ username: this.username, password: this.password });
       } else {
-        // Handle registration
+        await auth.register({
+          username: this.username,
+          password: this.password,
+        });
       }
     },
     switchFormType() {
@@ -53,6 +58,8 @@ export default {
     },
     closeDialog() {
       // Handle closing the dialog
+      // Emit an event to the parent component
+      this.$emit("closeDialog");
     },
   },
 };

@@ -19,19 +19,19 @@ the conversion page.
     <v-card>
       <v-card-title>Choose your conversion type:</v-card-title>
       <v-card-text>
-        <v-radio-group v-model="conversionType">
-          <v-radio :label="'Playlist Conversion'" value="playlist"></v-radio>
-          <v-radio :label="'Song Conversion'" value="song"></v-radio>
-        </v-radio-group>
+        <v-select v-model="conversionType" :items="conversionTypes"></v-select>
       </v-card-text>
       <v-card-text class="conversion-selects">
         <div>
           <label>From:</label>
-          <v-select v-model="fromPlatform" :items="platforms"></v-select>
+          <v-select
+            v-model="fromPlatform"
+            :items="conversionOptions"
+          ></v-select>
         </div>
         <div>
           <label>To:</label>
-          <v-select v-model="toPlatform" :items="platforms"></v-select>
+          <v-select v-model="toPlatform" :items="conversionOptions"></v-select>
         </div>
         <div>
           <label>Link to the song or playlist:</label>
@@ -52,19 +52,23 @@ the conversion page.
 </template>
 
 <script>
+import ConvertModel from "@/models/ConvertModel";
+import { convertSong } from "@/client/index.js";
+
 export default {
   data() {
     return {
+      conversionTypes: ["Song", "Playlist"],
       conversionType: "",
+      conversionOptions: ["Spotify", "Tidal"],
       fromPlatform: "",
       toPlatform: "",
       link: "",
-      platforms: ["Spotify", "Tidal"],
-      isLoggedIn: true, // Set to true if the user is logged in
+      isLoggedIn: true,
     };
   },
   methods: {
-    startConversion() {
+    async startConversion() {
       if (
         this.isLoggedIn &&
         this.conversionType &&
@@ -72,8 +76,14 @@ export default {
         this.toPlatform &&
         this.link
       ) {
-        // Handle the conversion based on the selected type, platforms, and link
-        // Implement your logic here
+        await convertSong(
+          new ConvertModel(
+            this.conversionType,
+            this.fromPlatform,
+            this.toPlatform,
+            this.link
+          )
+        );
       } else {
         // Show an error message or handle incomplete input
       }
