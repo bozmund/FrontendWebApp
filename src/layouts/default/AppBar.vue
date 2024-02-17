@@ -1,37 +1,38 @@
-<script setup>
-import Login from "@/components/Login.vue";
-</script>
 <template>
   <v-app-bar flat :elevation="2">
-    <v-app-bar-title> SpotifyToAnything </v-app-bar-title>
-    <v-btn @click="showLoginDialog">Login</v-btn>
-
-    <v-dialog v-model="loginDialog" max-width="500px">
-      <v-card>
-        <!-- Your login component goes here -->
-        <login-component @closeDialog="closeLoginDialog" />
-      </v-card>
-    </v-dialog>
+    <v-app-bar-title>
+      <router-link v-if="user" to="/" class="custom-link">
+        <span class="custom-title">SpotifyToAnything</span>
+      </router-link>
+    </v-app-bar-title>
+    <v-btn v-if="!user" to="/login">Login</v-btn>
+    <span class="spacing"></span>
+    <v-btn v-if="!user" to="/register">Register</v-btn>
+    <v-btn v-else to="/profile" >Hello {{ user }}</v-btn>
+    <v-btn v-if="user" @click="logout">Logout</v-btn>
   </v-app-bar>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      loginDialog: false,
-    };
-  },
   methods: {
-    showLoginDialog() {
-      this.loginDialog = true;
-    },
-    closeLoginDialog() {
-      this.loginDialog = false;
+    logout() {
+      localStorage.removeItem("token");
+      location.reload(); // Reload the page
     },
   },
-  components: {
-    "login-component": Login,
-  },
+  props: {
+    user: String,
+  }
 };
 </script>
+
+<style scoped>
+.custom-title {
+  font-weight: bold;
+}
+
+.spacing {
+  margin-right: 8px;
+}
+</style>

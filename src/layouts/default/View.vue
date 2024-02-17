@@ -1,9 +1,13 @@
 <template>
   <v-main>
-    <router-view />
+    <router-view :user ="user"/>
   </v-main>
 </template>
 
-<script setup>
-  //
+<script>
+  export default {
+    props: {
+      user: String,
+    }
+  }
 </script>

@@ -9,14 +9,14 @@ not filled out, it should show an error message or handle incomplete input.
 the conversion page.
 <template>
   <div class="landing-page">
-    <h1>Welcome to our Conversion Tool</h1>
+    <h1>Welcome {{ user }} to our Conversion Tool</h1>
     <p>On this website, you can choose what type of conversion you need.</p>
     <p>
       Just like how on another website, you can choose what playlists you can
       import from one music platform to another, you can also do that here to
       find songs in that other platform.
     </p>
-    <v-card>
+    <v-card elevation="5">
       <v-card-title>Choose your conversion type:</v-card-title>
       <v-card-text>
         <v-select v-model="conversionType" :items="conversionTypes"></v-select>
@@ -43,7 +43,7 @@ the conversion page.
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="!isLoggedIn" @click="startConversion"
+        <v-btn color="primary" :disabled="!user" @click="startConversion"
           >Start Conversion</v-btn
         >
       </v-card-actions>
@@ -56,6 +56,9 @@ import ConvertModel from "@/models/ConvertModel";
 import { convertSong } from "@/client/index.js";
 
 export default {
+  props: {
+    user: String,
+  },
   data() {
     return {
       conversionTypes: ["Song", "Playlist"],
@@ -64,13 +67,11 @@ export default {
       fromPlatform: "",
       toPlatform: "",
       link: "",
-      isLoggedIn: true,
     };
   },
   methods: {
     async startConversion() {
       if (
-        this.isLoggedIn &&
         this.conversionType &&
         this.fromPlatform &&
         this.toPlatform &&
