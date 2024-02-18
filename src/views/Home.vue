@@ -77,7 +77,7 @@ export default {
         this.toPlatform &&
         this.link
       ) {
-        await convertSong(
+        const response = await convertSong(
           new ConvertModel(
             this.conversionType,
             this.fromPlatform,
@@ -85,6 +85,7 @@ export default {
             this.link
           )
         );
+        console.log(response);
       } else {
         // Show an error message or handle incomplete input
       }

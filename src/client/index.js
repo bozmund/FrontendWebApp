@@ -13,7 +13,7 @@ async function convertSong(convertModel) {
     );
 
     // Handle the response data
-    console.log(response.data);
+    return response.data;
   } catch (error) {
     // Handle any errors
     console.error(error);
@@ -28,8 +28,7 @@ async function convertPlaylist(convertModel) {
       convertModel
     );
 
-    // Handle the response data
-    console.log(response.data);
+    return response.data;
   } catch (error) {
     // Handle any errors
     console.error(error);
