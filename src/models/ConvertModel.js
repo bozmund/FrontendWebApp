@@ -1,11 +1,8 @@
 class ConvertModel {
   constructor(conversionType, from, to, link) {
+    let url = new URL(link);
     // Remove the link prefix
-    link = link.replace("https://open.spotify.com/track/", "");
-    link = link.replace("https://open.spotify.com/playlist/", "");
-    link = link.replace("https://tidal.com/browse/track/", "");
-    link = link.replace("https://tidal.com/browse/playlist/", "");
-
+    link = url.pathname.split("/")[2];
     // Assign values
     this.conversionType = conversionType;
     this.from = from;

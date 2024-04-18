@@ -24,10 +24,7 @@ the conversion page.
       <v-card-text class="conversion-selects">
         <div>
           <label>From:</label>
-          <v-select
-            v-model="fromPlatform"
-            :items="conversionOptions"
-          ></v-select>
+          <v-select v-model="fromPlatform" :items="conversionOptions"></v-select>
         </div>
         <div>
           <label>To:</label>
@@ -35,25 +32,22 @@ the conversion page.
         </div>
         <div>
           <label>Link to the song or playlist:</label>
-          <v-text-field
-            v-model="link"
-            placeholder="Paste your link here"
-          ></v-text-field>
+          <v-text-field v-model="link" placeholder="Paste your link here"></v-text-field>
         </div>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn color="primary" :disabled="!user" @click="startConversion"
-          >Start Conversion</v-btn
-        >
+        <v-btn color="primary" :disabled="!user" @click="startConversion">Start Conversion</v-btn>
       </v-card-actions>
     </v-card>
+    <TidalAuthVue />
   </div>
 </template>
 
 <script>
 import ConvertModel from "@/models/ConvertModel";
 import { convertSong } from "@/client/index.js";
+import TidalAuthVue from "@/components/TidalAuth.vue";
 
 export default {
   props: {
@@ -71,26 +65,19 @@ export default {
   },
   methods: {
     async startConversion() {
-      if (
-        this.conversionType &&
+      if (this.conversionType &&
         this.fromPlatform &&
         this.toPlatform &&
-        this.link
-      ) {
-        const response = await convertSong(
-          new ConvertModel(
-            this.conversionType,
-            this.fromPlatform,
-            this.toPlatform,
-            this.link
-          )
-        );
+        this.link) {
+        const response = await convertSong(new ConvertModel(this.conversionType, this.fromPlatform, this.toPlatform, this.link));
         console.log(response);
-      } else {
+      }
+      else {
         // Show an error message or handle incomplete input
       }
     },
   },
+  components: { TidalAuthVue }
 };
 </script>
 
@@ -98,6 +85,7 @@ export default {
 .landing-page {
   margin: 20px;
 }
+
 .conversion-selects {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -105,6 +93,7 @@ export default {
   margin-top: 10px;
   align-items: center;
 }
+
 .conversion-selects div {
   display: flex;
   flex-direction: column;

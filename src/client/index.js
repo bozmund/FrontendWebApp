@@ -23,9 +23,8 @@ async function convertSong(convertModel) {
 async function convertPlaylist(convertModel) {
   try {
     // Make a POST request to the server
-    const response = await axios.post(
-      `http://localhost:3001/api/v1/convert/Playlist/${convertModel.from}/${convertModel.to}/${convertModel.link}`,
-      convertModel
+    const response = await axios.get(
+      `http://localhost:3001/api/v1/convert/Playlist/${convertModel.from}/${convertModel.to}/${convertModel.link}`
     );
 
     return response.data;
